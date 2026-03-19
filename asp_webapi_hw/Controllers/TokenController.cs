@@ -4,7 +4,7 @@ using asp_webapi_hw.Models;
 using asp_webapi_hw.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace homework_project.Controllers;
+namespace asp_webapi_hw.Controllers;
 
 [ApiController]
 [Route("api/token")]
@@ -18,16 +18,6 @@ public class TokenController : ControllerBase
         _tokenService = tokenService;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // POST api/token/generate
-    // Генерація пари токенів (викликається після успішного логіну)
-    // ─────────────────────────────────────────────────────────────────────────
-    /// <summary>
-    /// Генерує Access + Refresh токени для користувача за email/password.
-    /// </summary>
-    /// <response code="200">Пара токенів успішно згенерована.</response>
-    /// <response code="400">Невалідні вхідні дані.</response>
-    /// <response code="401">Невірний email або пароль.</response>
     [HttpPost("generate")]
     [ProducesResponseType(typeof(TokenResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -43,16 +33,6 @@ public class TokenController : ControllerBase
         return Ok(tokens);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // POST api/token/refresh
-    // Оновлення пари токенів за Refresh Token
-    // ─────────────────────────────────────────────────────────────────────────
-    /// <summary>
-    /// Оновлює пару токенів. Старий Refresh Token відкликається (Rotation).
-    /// </summary>
-    /// <response code="200">Нова пара токенів.</response>
-    /// <response code="400">Невалідні вхідні дані.</response>
-    /// <response code="401">Refresh Token невалідний, прострочений або відкликаний.</response>
     [HttpPost("refresh")]
     [ProducesResponseType(typeof(TokenResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -68,16 +48,6 @@ public class TokenController : ControllerBase
         return Ok(tokens);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // POST api/token/revoke
-    // Відкликання конкретного Refresh Token (logout з одного пристрою)
-    // ─────────────────────────────────────────────────────────────────────────
-    /// <summary>
-    /// Відкликає конкретний Refresh Token. Logout з поточного пристрою.
-    /// </summary>
-    /// <response code="204">Токен успішно відкликано.</response>
-    /// <response code="400">Невалідні вхідні дані.</response>
-    /// <response code="404">Токен не знайдено або вже відкликано.</response>
     [HttpPost("revoke")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
